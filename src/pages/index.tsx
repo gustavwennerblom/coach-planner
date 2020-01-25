@@ -4,7 +4,7 @@ import { FirebaseContext } from 'gatsby-plugin-firebase';
 import Layout from '../components/layout';
 import Image from '../components/image';
 import SEO from '../components/seo';
-import { getUser, setUser, isLoggedIn } from '../services/auth';
+import { getUser, setUser, setToken, isLoggedIn } from '../services/auth';
 
 const IndexPage = () => {
   const firebase = React.useContext(FirebaseContext);
@@ -19,6 +19,7 @@ const IndexPage = () => {
     console.log('Credential is:', result.credential);
     console.log('User is', result.user);
     setUser(result.user);
+    setToken(result.credential['accessToken']);
   };
 
   const currentUser = getUser();
@@ -35,6 +36,7 @@ const IndexPage = () => {
         <Image />
       </div>
       <Link to="/page-2/">Go to page 2</Link>
+      <Link to="/test-entry/">Test data entry</Link>
     </Layout>
   );
 };

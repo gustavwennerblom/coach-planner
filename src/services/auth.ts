@@ -9,6 +9,14 @@ export const setUser = (user: firebase.User) => {
   return window.localStorage.setItem('gatsbyUser', JSON.stringify(user));
 };
 
+export const setToken = (token: string) => {
+  return window.sessionStorage.setItem('googleAuthToken', token);
+};
+
+export const getToken = () => {
+  return window.sessionStorage.getItem('googleAuthToken');
+};
+
 export const handleLogin = () => console.log('handleLogin not yet implemented');
 
 export const isLoggedIn = () => {
