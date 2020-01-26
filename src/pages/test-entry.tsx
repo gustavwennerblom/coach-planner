@@ -28,11 +28,26 @@ const TestEntry = () => {
     }
   };
 
+  const handleAddTraining = async () => {
+    const authToken = getToken();
+    const db = firebase.firestore();
+    try {
+      await db.collection('test-trainings').add({
+        date: new Date(2020, 2, 3),
+        headcoach: 'test-Maria',
+        coaches: ['test-Gustav', 'test-Jens'],
+      });
+    } catch (err) {
+      setError(true);
+    }
+  };
+
   return (
     <Layout>
       {hasError && <h2>Submission failed </h2>}
       <input type="text" value={entry} onChange={handleChange} />
       <button onClick={handleSubmit}>Submit entry</button>
+      <button onClick={handleAddTraining}>Add training</button>
     </Layout>
   );
 };
