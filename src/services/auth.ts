@@ -5,6 +5,11 @@ export const getUser = (): firebase.User => {
   return isBrowser() && storedUser ? JSON.parse(storedUser) : null;
 };
 
+export const setUserAndToken = (authResponse: firebase.auth.UserCredential) => {
+  setUser(authResponse.user);
+  setToken(authResponse.credential['accessToken']);
+};
+
 export const setUser = (user: firebase.User) => {
   return window.localStorage.setItem('gatsbyUser', JSON.stringify(user));
 };

@@ -4,31 +4,23 @@ import { FirebaseContext } from 'gatsby-plugin-firebase';
 import Layout from '../components/layout';
 import Image from '../components/image';
 import SEO from '../components/seo';
-import { getUser, setUser, setToken, isLoggedIn } from '../services/auth';
+import { getUser, setUserAndToken, isLoggedIn } from '../services/auth';
+import { SocialLogins, useAuth } from 'gatsby-theme-firebase';
 
 const IndexPage = () => {
-  const firebase = React.useContext(FirebaseContext);
-
-  const handleLogin = async () => {
-    // const ui = new firebaseui.auth.AuthUI(firebase.auth());
-    // ui.start('#firebaseui-auth-container', {
-    //   signInOptions: [firebase.auth.GoogleAuthProvider.PROVIDER_ID],
-    // });
-    const provider = new firebase.auth.GoogleAuthProvider();
-    const result = await firebase.auth().signInWithPopup(provider);
-    console.log('Credential is:', result.credential);
-    console.log('User is', result.user);
-    setUser(result.user);
-    setToken(result.credential['accessToken']);
-  };
-
-  const currentUser = getUser();
+  const { isLoading, isLoggedIn, profile } = useAuth();
 
   return (
     <Layout>
       <SEO title="Home" />
-      <h1>{isLoggedIn() ? `Hi ${currentUser.displayName}` : `Hi guest!`}</h1>
-      {!isLoggedIn() && <button onClick={handleLogin}>Log in</button>}
+      <h1>{isLoggedIn ? `Hi ${profile.displayName}` : `Hi guest!`}</h1>
+
+      {!isLoggedIn && (
+        <SocialLogins
+          onSuccess={(userCredential) => setUserAndToken(userCredential)}
+        />
+      )}
+
       <p>Welcome to your new Gatsby site.</p>
       <p>Now go build something great.</p>
       <div id="firebaseui-auth-container" />
