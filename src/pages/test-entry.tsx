@@ -1,24 +1,19 @@
 import React, { useState } from 'react';
 import Layout from '../components/layout';
 import { firestore, useFirestoreQuery } from 'gatsby-theme-firebase';
-
-interface Training {
-  _id: string;
-  date: firebase.firestore.Timestamp;
-  headcoach: string;
-  coaches: string[];
-}
+import { COLLECTIONS } from '../../constants';
+import { Training } from '../../types';
 
 const TestEntry = () => {
   const [entry, setEntry] = useState('');
   const [hasError, setError] = useState(false);
 
-  const [trainings, isLoading, error] = useFirestoreQuery<Training>(
-    firestore.collection('test-trainings').orderBy('date')
+  const [trainings, isLoading, queryError] = useFirestoreQuery<Training>(
+    firestore.collection(COLLECTIONS.TRAININGS).orderBy('date')
   );
 
-  console.log(trainings);
-  console.log(error);
+  if (queryError) setError(true);
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEntry(event.target.value);
   };
@@ -26,7 +21,7 @@ const TestEntry = () => {
   const handleAddTraining = async () => {
     const db = firestore;
     try {
-      await db.collection('test-trainings').add({
+      await db.collection(COLLECTIONS.TRAININGS).add({
         date: new Date(2021, 2, 3),
         headcoach: 'test-Maria',
         coaches: ['test-Gustav', 'test-Jens'],
