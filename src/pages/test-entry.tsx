@@ -12,8 +12,6 @@ const TestEntry = () => {
     firestore.collection(COLLECTIONS.TRAININGS).orderBy('date')
   );
 
-  if (queryError) setError(true);
-
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEntry(event.target.value);
   };
@@ -41,7 +39,7 @@ const TestEntry = () => {
 
   return (
     <Layout>
-      {hasError && <h2>Submission failed </h2>}
+      {(hasError || queryError) && <h2>Submission failed </h2>}
       <input type="text" value={entry} onChange={handleChange} />
       <button onClick={handleAddTraining}>Add training</button>
       {/* <button onClick={handleSubmit}>Submit entry</button> */}
