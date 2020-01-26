@@ -4,9 +4,10 @@ import { FirebaseContext } from 'gatsby-plugin-firebase';
 import { getToken } from '../services/auth';
 import 'firebase/firestore';
 import { WithFirebase } from '../hocs/withFirebase';
+import { firestore } from 'firebase';
 
 interface Training {
-  date: Date;
+  date: firestore.Timestamp;
   headcoach: string;
   coaches: string[];
 }
@@ -66,7 +67,7 @@ const TestEntry = () => {
   const renderTrainings = () => {
     return trainings.map((training) => (
       <li>
-        {training.date.toString()}, {training.headcoach}
+        {training.date.toDate().toLocaleDateString()}, {training.headcoach}
       </li>
     ));
   };
