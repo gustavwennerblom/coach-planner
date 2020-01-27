@@ -3,6 +3,7 @@ import Layout from '../components/layout';
 import { firestore, useFirestoreQuery } from 'gatsby-theme-firebase';
 import { COLLECTIONS } from '../../constants';
 import { Training } from '../../types';
+import TrainingsDisplay from '../components/TrainingsDisplay';
 
 const TestEntry = () => {
   const [entry, setEntry] = useState('');
@@ -29,14 +30,6 @@ const TestEntry = () => {
     }
   };
 
-  const renderTrainings = () => {
-    return trainings.map((training) => (
-      <li key={training._id}>
-        {training.date.toDate().toLocaleDateString()}, {training.headcoach}
-      </li>
-    ));
-  };
-
   return (
     <Layout>
       {(hasError || queryError) && <h2>Submission failed </h2>}
@@ -44,7 +37,7 @@ const TestEntry = () => {
       <button onClick={handleAddTraining}>Add training</button>
       {/* <button onClick={handleSubmit}>Submit entry</button> */}
       <h3>Registered trainings</h3>
-      {isLoading ? <p>Loading</p> : <ul>{renderTrainings()}</ul>}
+      {isLoading ? <p>Loading</p> : <TrainingsDisplay trainings={trainings} />}
     </Layout>
   );
 };
