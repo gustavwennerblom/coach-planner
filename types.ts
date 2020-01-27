@@ -4,3 +4,10 @@ export type Training = {
   headcoach: string;
   coaches: string[];
 };
+
+export type Coach = {
+  _id: string;
+  firstName: string;
+  lastName: string;
+  phoneNumber: string;
+};
