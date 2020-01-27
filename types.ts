@@ -6,7 +6,7 @@ export type Training = {
 };
 
 export type Coach = {
-  _id: string;
+  _id?: string;
   firstName: string;
   lastName: string;
   phoneNumber: string;

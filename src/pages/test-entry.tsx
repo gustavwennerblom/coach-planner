@@ -6,14 +6,19 @@ import { Training, Coach } from '../../types';
 import TrainingsDisplay from '../components/TrainingsDisplay';
 import AddCoachDrawer from '../components/modals/AddCoachDrawer';
 import { Button } from '@material-ui/core';
+import AddTraingDrawer from '../components/modals/AddTrainingDrawer';
 
 const TestEntry = () => {
   const [entry, setEntry] = useState('');
   const [hasError, setError] = useState(false);
   const [coachDrawerOpen, _toggleCoachDrawer] = useState(false);
+  const [addTrainingDrawerOpen, _toggleTrainingDrawer] = useState(false);
 
   const toggleCoachDrawer = (nextState: boolean) => (event: any) =>
     _toggleCoachDrawer(nextState);
+
+  const toggleTrainingDrawer = (nextState: boolean) => (event: any) =>
+    _toggleTrainingDrawer(nextState);
 
   const [trainings, isLoading, queryError] = useFirestoreQuery<Training>(
     firestore.collection(COLLECTIONS.TRAININGS).orderBy('date')
@@ -25,6 +30,7 @@ const TestEntry = () => {
 
   const handleAddCoach = async (coach: Coach) => {
     try {
+      console.log('Storing', coach);
       await firestore.collection(COLLECTIONS.COACHES).add(coach);
     } catch {
       setError(true);
@@ -47,7 +53,7 @@ const TestEntry = () => {
     <Layout>
       {(hasError || queryError) && <h2>Submission failed </h2>}
       <input type="text" value={entry} onChange={handleChange} />
-      <button onClick={handleAddTraining}>Add training</button>
+      <Button onClick={toggleTrainingDrawer(true)}>Add training</Button>
       <Button onClick={toggleCoachDrawer(true)}>Add coach</Button>
       {/* <button onClick={handleSubmit}>Submit entry</button> */}
       <h3>Registered trainings</h3>
@@ -56,6 +62,13 @@ const TestEntry = () => {
         <AddCoachDrawer
           isOpen={coachDrawerOpen}
           toggleOpen={toggleCoachDrawer}
+          handleAddCoach={handleAddCoach}
+        />
+      )}
+      {addTrainingDrawerOpen && (
+        <AddTraingDrawer
+          isOpen={addTrainingDrawerOpen}
+          toggleOpen={toggleTrainingDrawer}
         />
       )}
     </Layout>
