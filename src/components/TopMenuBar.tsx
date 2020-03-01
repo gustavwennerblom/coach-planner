@@ -6,6 +6,9 @@ import LoginButton from './LoginButton';
 
 const useStyles = makeStyles((theme) =>
   createStyles({
+    bar: {
+      marginBottom: '1em',
+    },
     title: {
       flexGrow: 1,
     },
@@ -15,7 +18,7 @@ const useStyles = makeStyles((theme) =>
 const TopMenuBar = () => {
   const classes = useStyles();
   return (
-    <AppBar position="static">
+    <AppBar className={classes.bar} position="static">
       <Toolbar>
         <IconButton edge="start" color="inherit" aria-label="menu">
           <MenuIcon />

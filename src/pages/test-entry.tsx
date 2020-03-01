@@ -9,7 +9,6 @@ import { Button } from '@material-ui/core';
 import AddTraingDrawer from '../components/modals/AddTrainingDrawer';
 
 const TestEntry = () => {
-  const [entry, setEntry] = useState('');
   const [hasError, setError] = useState(false);
   const [coachDrawerOpen, _toggleCoachDrawer] = useState(false);
   const [addTrainingDrawerOpen, _toggleTrainingDrawer] = useState(false);
@@ -30,10 +29,6 @@ const TestEntry = () => {
 
   const isLoading = isLoadingTrainings || isLoadingCoaches;
   const queryError = trainingQueryError || coachQueryError;
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setEntry(event.target.value);
-  };
 
   const handleAddCoach = async (coach: Coach) => {
     try {
@@ -59,9 +54,20 @@ const TestEntry = () => {
   return (
     <Layout>
       {(hasError || queryError) && <h2>Submission failed </h2>}
-      <input type="text" value={entry} onChange={handleChange} />
-      <Button onClick={toggleTrainingDrawer(true)}>Add training</Button>
-      <Button onClick={toggleCoachDrawer(true)}>Add coach</Button>
+      <Button
+        color="primary"
+        variant="contained"
+        onClick={toggleTrainingDrawer(true)}
+      >
+        Add training
+      </Button>
+      <Button
+        color="primary"
+        variant="outlined"
+        onClick={toggleCoachDrawer(true)}
+      >
+        Add coach
+      </Button>
       {/* <button onClick={handleSubmit}>Submit entry</button> */}
       <h3>Registered trainings</h3>
       {isLoading ? (

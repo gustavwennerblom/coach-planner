@@ -1,5 +1,12 @@
 import React from 'react';
-import { SwipeableDrawer } from '@material-ui/core';
+import {
+  Button,
+  List,
+  ListItem,
+  SwipeableDrawer,
+  Typography,
+} from '@material-ui/core';
+import DateTimePicker from '../DateTimePicker';
 
 interface IProps {
   toggleOpen: (nextState: boolean) => (event: any) => void;
@@ -14,9 +21,21 @@ const AddTraingDrawer = ({ isOpen, toggleOpen }: IProps) => {
       onClose={toggleOpen(false)}
       onOpen={toggleOpen(true)}
     >
-      <p>Random</p>
-      <p>Text</p>
-      <p>Here</p>
+      <List>
+        <ListItem>
+          <Typography variant="h6">
+            Vilket datum och klockslag är träningen?
+          </Typography>
+        </ListItem>
+        <ListItem>
+          <DateTimePicker />
+        </ListItem>
+        <ListItem>
+          <Button color="primary" variant="contained">
+            Lägg till schemat
+          </Button>
+        </ListItem>
+      </List>
     </SwipeableDrawer>
   );
 };
