@@ -20,9 +20,16 @@ const TestEntry = () => {
   const toggleTrainingDrawer = (nextState: boolean) => (event: any) =>
     _toggleTrainingDrawer(nextState);
 
-  const [trainings, isLoading, queryError] = useFirestoreQuery<Training>(
-    firestore.collection(COLLECTIONS.TRAININGS).orderBy('date')
+  const [trainings, isLoadingTrainings, trainingQueryError] = useFirestoreQuery<
+    Training
+  >(firestore.collection(COLLECTIONS.TRAININGS).orderBy('date'));
+
+  const [coaches, isLoadingCoaches, coachQueryError] = useFirestoreQuery<Coach>(
+    firestore.collection(COLLECTIONS.COACHES)
   );
+
+  const isLoading = isLoadingTrainings || isLoadingCoaches;
+  const queryError = trainingQueryError || coachQueryError;
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEntry(event.target.value);
@@ -57,7 +64,11 @@ const TestEntry = () => {
       <Button onClick={toggleCoachDrawer(true)}>Add coach</Button>
       {/* <button onClick={handleSubmit}>Submit entry</button> */}
       <h3>Registered trainings</h3>
-      {isLoading ? <p>Loading</p> : <TrainingsDisplay trainings={trainings} />}
+      {isLoading ? (
+        <p>Loading</p>
+      ) : (
+        <TrainingsDisplay trainings={trainings} coaches={coaches} />
+      )}
       {coachDrawerOpen && (
         <AddCoachDrawer
           isOpen={coachDrawerOpen}
