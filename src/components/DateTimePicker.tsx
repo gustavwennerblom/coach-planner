@@ -1,13 +1,13 @@
 import React from 'react';
 import { TextField } from '@material-ui/core';
-import moment from 'moment';
 
-const DateTimePicker = () => {
+const DateTimePicker = ({ trainingDateTime, setTrainingDateTime }) => {
   return (
     <TextField
-      label="Date & Time"
+      label="Datum & Tid"
       type="datetime-local"
-      defaultValue={moment().format('YYYY-MM-DDThh:mm')}
+      value={trainingDateTime}
+      onChange={(event) => setTrainingDateTime(event.target.value)}
     />
   );
 };

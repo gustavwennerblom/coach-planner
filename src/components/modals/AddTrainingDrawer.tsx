@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Button,
   List,
@@ -7,13 +7,18 @@ import {
   Typography,
 } from '@material-ui/core';
 import DateTimePicker from '../DateTimePicker';
+import moment from 'moment';
 
 interface IProps {
   toggleOpen: (nextState: boolean) => (event: any) => void;
   isOpen: boolean;
+  handleAddTraining: (date: Date) => void;
 }
 
-const AddTraingDrawer = ({ isOpen, toggleOpen }: IProps) => {
+const AddTraingDrawer = ({ isOpen, toggleOpen, handleAddTraining }: IProps) => {
+  const [trainingDateTime, setTrainingDateTime] = useState(
+    moment().format('YYYY-MM-DDThh:mm')
+  );
   return (
     <SwipeableDrawer
       anchor="bottom"
@@ -28,10 +33,17 @@ const AddTraingDrawer = ({ isOpen, toggleOpen }: IProps) => {
           </Typography>
         </ListItem>
         <ListItem>
-          <DateTimePicker />
+          <DateTimePicker
+            trainingDateTime={trainingDateTime}
+            setTrainingDateTime={setTrainingDateTime}
+          />
         </ListItem>
         <ListItem>
-          <Button color="primary" variant="contained">
+          <Button
+            color="primary"
+            variant="contained"
+            onClick={() => handleAddTraining(moment(trainingDateTime).toDate())}
+          >
             Lägg till schemat
           </Button>
         </ListItem>

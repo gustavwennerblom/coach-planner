@@ -38,13 +38,11 @@ const TestEntry = () => {
       setError(true);
     }
   };
-  const handleAddTraining = async () => {
+  const handleAddTraining = async (trainingDate) => {
     const db = firestore;
     try {
       await db.collection(COLLECTIONS.TRAININGS).add({
-        date: new Date(2021, 2, 3),
-        headcoach: 'test-Maria',
-        coaches: ['test-Gustav', 'test-Jens'],
+        date: trainingDate,
       });
     } catch (err) {
       setError(true);
@@ -86,6 +84,7 @@ const TestEntry = () => {
         <AddTraingDrawer
           isOpen={addTrainingDrawerOpen}
           toggleOpen={toggleTrainingDrawer}
+          handleAddTraining={handleAddTraining}
         />
       )}
     </Layout>
