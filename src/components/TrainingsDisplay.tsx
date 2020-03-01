@@ -8,6 +8,7 @@ import {
   TableContainer,
 } from '@material-ui/core';
 import { Training, Coach } from '../../types';
+import moment from 'moment';
 
 interface ITrainingsDisplay {
   trainings: Training[];
@@ -33,7 +34,10 @@ const TrainingsDisplay = ({ trainings, coaches }: ITrainingsDisplay) => {
         <TableBody>
           {trainings.map((training: Training) => (
             <TableRow key={training._id}>
-              <TableCell>{training.date.toDate().toLocaleString()}</TableCell>
+              {/* <TableCell>{training.date.toDate().toLocaleString()}</TableCell> */}
+              <TableCell>
+                {moment(training.date.toDate()).format('dddd YYYY-MM-DD')}
+              </TableCell>
               {sortedCoaches.map((coach) => (
                 <TableCell key={`${training._id}-${coach._id}`}>
                   {
